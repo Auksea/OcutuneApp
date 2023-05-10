@@ -3,6 +3,7 @@ const mysql = require('mysql2');
 const cors = require('cors');
 const app = express();
 
+
 const connection = mysql.createConnection({
   host: 'ocutuneserver.mysql.database.azure.com',
   user: 'OcutuneAdmin',

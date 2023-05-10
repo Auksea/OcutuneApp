@@ -10,7 +10,7 @@ function Welcome() {
 
   async function fetchData() {
     try {
-      const response = await axios.get('http://localhost:3001/measurements');
+      const response = await axios.get('http://localhost:3000/measurements');
       setData(response.data);
     } catch (error) {
       console.error(error);
@@ -30,10 +30,10 @@ function Welcome() {
         </thead>
         <tbody>
           {data.map(item => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.name}</td>
-              <td>{item.value}</td>
+            <tr key={item["Serial No"]}>
+              <td>{item["Serial No"]}</td>
+              <td>{item["measurementscol"]}</td>
+              <td>{item["LUX"]}</td>
             </tr>
           ))}
         </tbody>
@@ -43,6 +43,7 @@ function Welcome() {
 }
 
 export default Welcome;
+
 
 
   
