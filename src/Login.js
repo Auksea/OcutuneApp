@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useHistory } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { auth, signInWithEmailAndPassword } from "./firebase";
 import "./Login.css";
 
@@ -8,18 +7,17 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const history = useHistory();
+  const navigate = useNavigate();
 
-  const signInWithEmailAndPasswordHandler = (event, email, password) => {
+  const signInWithEmailAndPasswordHandler = async (event, email, password) => {
     event.preventDefault();
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        history.push("/welcome");
-      })
-      .catch(error => {
-        setError("Username or password is incorrect");
-        console.error("Username or password is incorrect", error);
-      });
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate("/welcome");
+    } catch (error) {
+      setError("Username or password is incorrect");
+      console.error("Username or password is incorrect", error);
+    }
   };
 
   const onChangeHandler = (event) => {
@@ -59,13 +57,16 @@ function Login() {
             <p>{error}</p>
           </div>
         )}
-        <p>Don't have an account? <Link to="/signup">Sign up</Link></p>
       </form>
     </div>
   );
 }
 
 export default Login;
+
+
+
+
 
 
 
