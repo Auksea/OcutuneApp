@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function Welcome() {
   const [data, setData] = useState([]);
@@ -8,19 +9,35 @@ function Welcome() {
   }, []);
 
   async function fetchData() {
-    const response = await fetch('http://localhost:3000/measurements');
-    const jsonData = await response.json();
-    setData(jsonData);
+    try {
+      const response = await axios.get('http://localhost:3001/measurements');
+      setData(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
     <div>
       <h1>Welcome</h1>
-      <ul>
-        {data.map(item => (
-          <li key={item.id}>{item.name}</li>
-        ))}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map(item => (
+            <tr key={item.id}>
+              <td>{item.id}</td>
+              <td>{item.name}</td>
+              <td>{item.value}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

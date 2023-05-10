@@ -1,5 +1,6 @@
 const express = require('express');
 const mysql = require('mysql2');
+const cors = require('cors');
 const app = express();
 
 const connection = mysql.createConnection({
@@ -9,6 +10,8 @@ const connection = mysql.createConnection({
   database: 'ocutunedb',
   port: 3306,
 });
+// enable CORS for all origins
+app.use(cors());
 
 app.get('/measurements', (req, res) => {
   connection.query('SELECT * FROM ocutunedb.measurements', (err, results) => {
