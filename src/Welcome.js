@@ -23,23 +23,35 @@ function Welcome() {
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Value</th>
+            <th>Serial No</th>
+            <th>LUX</th>
+            <th>CCT</th>
+            <th>mEDI</th>
+            <th>measurementscol</th>
+            <th>GIndex(Light Pollution)</th>
+            <th>Rodent(m-lux)</th>
+            <th>Graphical Interphase</th>
+            <th>measurementscol1</th>
           </tr>
         </thead>
         <tbody>
           {data.map(item => (
             <tr key={item["Serial No"]}>
               <td>{item["Serial No"]}</td>
-              <td>{item["measurementscol"]}</td>
               <td>{item["LUX"]}</td>
+              <td>{item["CCT"]}</td>
+              <td>{item["mEDI"]}</td>
+              <td>{item["measurementscol"]}</td>
+              <td>{item["GIndex(Light Pollution)"]}</td>
+              <td>{item["Rodent(m-lux)"]}</td>
+              <td>{item["Graphical Interphase"]}</td>
+              <td>{item["measurementscol1"]}</td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
-  );
+  );  
 }
 
 export default Welcome;
