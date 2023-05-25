@@ -58,29 +58,40 @@ app.get('/etl', async (req, res) => {
       'PPFD-G': 'Rodent_Mlux'
     };
 
-    const filteredValues = csvData
-      .filter(row => row['File Name'] in mapping)
-      .map(row => ({
-        'File Name': row['File Name'],
-        'Value': parseFloat(row[' test'].trim())
-      }));
+    const concatenatedValues = {};
 
-    console.log('Filtered Values:', filteredValues);
+    for (const row of csvData) {
+      const fileName = row['File Name'];
+      const value = parseFloat(row[' test']);
 
-    // Insert the rows into the MySQL database
-    try {
-      for (const row of filteredValues) {
-        const { 'File Name': fileName, 'Value': value } = row;
+      if (!isNaN(value) && fileName in mapping) {
         const column = mapping[fileName];
 
-        const query = `INSERT INTO measurements (\`${column}\`) VALUES (?)`;
+        if (concatenatedValues[column]) {
+          concatenatedValues[column] += `,${value}`;
+        } else {
+          concatenatedValues[column] = String(value);
+        }
+      }
+    }
+
+    console.log('Concatenated Values:', concatenatedValues);
+
+    // Insert the concatenated values into the MySQL database
+    try {
+      const queryValues = Object.values(concatenatedValues);
+
+      if (queryValues.length > 0) {
+        const query = `INSERT INTO measurements (${Object.keys(concatenatedValues).join(',')}) VALUES (${queryValues.map(() => '?').join(',')})`;
 
         console.log('SQL Query:', query);
-        console.log('Query Value:', value);
+        console.log('Query Values:', queryValues);
 
-        await executeQuery(query, [value]);
+        await executeQuery(query, queryValues);
 
-        console.log('Inserted row:', row);
+        console.log('Inserted rows:', csvData.length);
+      } else {
+        console.log('No rows to insert');
       }
     } catch (error) {
       console.error('Error inserting rows:', error);
@@ -95,6 +106,9 @@ app.get('/etl', async (req, res) => {
 
   console.log('ETL process completed');
 });
+
+
+
 
 // Function to execute a MySQL query
 function executeQuery(query, values) {

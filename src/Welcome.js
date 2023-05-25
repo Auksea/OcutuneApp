@@ -20,38 +20,32 @@ function Welcome() {
   return (
     <div>
       <h1>Welcome</h1>
-      <table>
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr>
-            <th>Serial No</th>
-            <th>LUX</th>
-            <th>CCT</th>
-            <th>mEDI</th>
-            <th>measurementscol</th>
-            <th>GIndex(Light Pollution)</th>
-            <th>Rodent(m-lux)</th>
-            <th>Graphical Interphase</th>
-            <th>measurementscol1</th>
+            <th style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>Serial No</th>
+            <th style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>LUX</th>
+            <th style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>CCT</th>
+            <th style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>mEDI</th>
+            <th style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>GIndex(Light Pollution)</th>
+            <th style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>Rodent(m-lux)</th>
           </tr>
         </thead>
         <tbody>
           {data.map(item => (
-            <tr key={item["Serial No"]}>
-              <td>{item["Serial No"]}</td>
-              <td>{item["LUX"]}</td>
-              <td>{item["CCT"]}</td>
-              <td>{item["mEDI"]}</td>
-              <td>{item["measurementscol"]}</td>
-              <td>{item["GIndex(Light Pollution)"]}</td>
-              <td>{item["Rodent(m-lux)"]}</td>
-              <td>{item["Graphical Interphase"]}</td>
-              <td>{item["measurementscol1"]}</td>
+            <tr key={item.SerialNo}>
+              <td style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>{item.SerialNo}</td>
+              <td style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>{item.LUX}</td>
+              <td style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>{item.CCT}</td>
+              <td style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>{item.mEDI}</td>
+              <td style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>{item.GIndex_LightPollution}</td>
+              <td style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>{item.Rodent_Mlux}</td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
-  );  
+  );
 }
 
 export default Welcome;
