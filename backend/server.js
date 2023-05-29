@@ -78,9 +78,6 @@ function updateProcessedFile(fileName) {
   });
 }
 
-
-
-
 async function performETL() {
   console.log('ETL process started');
   try {
@@ -93,85 +90,76 @@ async function performETL() {
     // List all blobs in the container
     const blobList = containerClient.listBlobsFlat();
 
-    // Get the latest uploaded CSV file
-    let latestBlob = null;
-
     for await (const blob of blobList) {
       const blobProperties = await containerClient.getBlobClient(blob.name).getProperties();
       const fileName = blob.name;
 
-      if (!latestBlob) {
-        latestBlob = blob;
-      } else {
-        // Compare file names to get the latest file
-        if (fileName > latestBlob.name) {
-          latestBlob = blob;
-        }
+      // Check if the file has already been processed
+      const isProcessed = await isFileProcessed(fileName);
+
+      if (isProcessed) {
+        console.log(`File '${fileName}' has already been processed`);
+        continue; // Move to the next file
       }
-    }
 
-    if (!latestBlob) {
-      // No CSV file found
-      console.log('No CSV files found in the container');
-      return;
-    }
+      // Get a reference to the blob (CSV file)
+      const blobClient = containerClient.getBlobClient(fileName);
 
-    // Get the name of the latest CSV file
-    const fileName = latestBlob.name;
-    console.log('Latest CSV file:', fileName);
+      // Download the CSV file as a buffer
+      const downloadResponse = await blobClient.download();
+      const buffer = await streamToBuffer(downloadResponse.readableStreamBody);
 
-    // Check if the file has already been processed
-    const isProcessed = await checkIfFileProcessed(fileName);
+      // Parse the CSV file using PapaParse
+      const csvData = Papa.parse(Buffer.from(buffer).toString(), { header: true }).data;
+      console.log('csvData:', csvData);
 
-    if (isProcessed) {
-      console.log('File has already been processed');
-      return;
-    }
+      const mapping = {
+        'Photopic Lux': 'LUX',
+        'CCT': 'CCT',
+        'Erythropic Lux': 'mEDI',
+        'Melanopic Lux': 'GIndex_LightPollution',
+        'PPFD-G': 'Rodent_Mlux'
+      };
 
-    // Get a reference to the blob (CSV file)
-    const blobClient = containerClient.getBlobClient(fileName);
+      const concatenatedValues = {};
 
-    // Download the Excel file as a buffer
-    const downloadResponse = await blobClient.download();
-    const buffer = await streamToBuffer(downloadResponse.readableStreamBody);
+      try {
+        for (const row of csvData) {
+          const columnName = mapping[row['File Name']];
 
-    // Parse the Excel file using PapaParse
-    const csvData = Papa.parse(Buffer.from(buffer).toString(), { header: true }).data;
-    console.log('csvData:', csvData);
+          if (columnName && row[' test']) {
+            if (!concatenatedValues[columnName]) {
+              concatenatedValues[columnName] = [];
+            }
 
-    const mapping = {
-      'Photopic Lux': 'LUX',
-      'CCT': 'CCT',
-      'Erythropic Lux': 'mEDI',
-      'Melanopic Lux': 'GIndex_LightPollution',
-      'PPFD-G': 'Rodent_Mlux'
-    };
+            concatenatedValues[columnName].push(row[' test']);
+          }
+        }
 
-    const concatenatedValues = {};
+        const queryColumns = Object.keys(concatenatedValues).join(',');
+        const queryPlaceholders = Object.values(concatenatedValues).map(() => '?').join(',');
 
-    // Insert the concatenated values into the MySQL database
-    try {
-      const queryValues = Object.values(concatenatedValues);
+        if (queryColumns && queryPlaceholders) {
+          const query = `INSERT INTO measurements (${queryColumns}) VALUES (${queryPlaceholders})`;
+          const queryValues = [].concat(...Object.values(concatenatedValues));
 
-      if (queryValues.length > 0) {
-        const query = `INSERT INTO measurements (${Object.keys(concatenatedValues).join(',')}) VALUES (${queryValues.map(() => '?').join(',')})`;
+          console.log('SQL Query:', query);
+          console.log('Query Values:', queryValues);
 
-        console.log('SQL Query:', query);
-        console.log('Query Values:', queryValues);
+          await updateProcessedFile(fileName);
+          await executeQuery(query, queryValues);
 
-        await updateProcessedFile(latestFileName);
-        await executeQuery(query, queryValues);
-
-
-        console.log('Inserted rows:', csvData.length);
-      } else {
-        console.log('No rows to insert');
+          console.log('Inserted rows:', csvData.length);
+        } else {
+          console.log(`No valid rows to insert in file '${fileName}'`);
+        }
+      } catch (error) {
+        console.error(`Error inserting rows for file '${fileName}':`, error);
+        continue; // Move to the next file
       }
 
       await updateProcessedFile(fileName);
-    } catch (error) {
-      console.error('Error inserting rows:', error);
-      return;
+      console.log(`File '${fileName}' has been processed successfully`);
     }
 
     console.log('ETL process completed');
