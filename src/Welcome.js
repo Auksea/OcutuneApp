@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './Welcome.css'; // Import the Welcome.css file
 
 function Welcome() {
   const [data, setData] = useState([]);
@@ -27,36 +28,35 @@ function Welcome() {
   }  
 
   return (
-    <div>
+    <div className="welcome-container"> {/* Use the "welcome-container" class */}
       <h1>Welcome</h1>
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-      <thead>
-      <tr>
-        <th style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>Serial No</th>
-        <th style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>LUX</th>
-        <th style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>CCT</th>
-        <th style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>mEDI</th>
-        <th style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>GIndex(Light Pollution)</th>
-        <th style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>Rodent(m-lux)</th>
-        <th style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>Actions</th> {/* Added delete button header */}
-      </tr>
-    </thead>
-
-    <tbody>
-      {data.map(item => (
-        <tr key={item.SerialNo}>
-          <td style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>{item.SerialNo}</td>
-          <td style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>{item.LUX}</td>
-          <td style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>{item.CCT}</td>
-          <td style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>{item.mEDI}</td>
-          <td style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>{item.GIndex_LightPollution}</td>
-          <td style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>{item.Rodent_Mlux}</td>
-          <td style={{ textAlign: 'center', padding: '8px', border: '1px solid black' }}>
-            <button onClick={() => handleDelete(item.SerialNo)}>Delete</button>
-          </td> {/* Added delete button */}
-        </tr>
-      ))}
-    </tbody>
+      <table className="data-table"> {/* Use the "data-table" class */}
+        <thead>
+          <tr>
+            <th>Serial No</th>
+            <th>LUX</th>
+            <th>CCT</th>
+            <th>mEDI</th>
+            <th>GIndex(Light Pollution)</th>
+            <th>Rodent(m-lux)</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map(item => (
+            <tr key={item.SerialNo}>
+              <td>{item.SerialNo}</td>
+              <td>{item.LUX}</td>
+              <td>{item.CCT}</td>
+              <td>{item.mEDI}</td>
+              <td>{item.GIndex_LightPollution}</td>
+              <td>{item.Rodent_Mlux}</td>
+              <td>
+                <button onClick={() => handleDelete(item.SerialNo)}>Delete</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   );

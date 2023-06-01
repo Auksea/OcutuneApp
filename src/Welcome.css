@@ -1,0 +1,40 @@
+.welcome-container {
+  background-color: #ffe8f0; /* Set the pink shade background color */
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+  text-align: center;
+  padding: 8px;
+}
+
+.data-table th {
+  font-weight: bold;
+}
+
+.data-table tr:nth-child(even) {
+  background-color: #ffe8f0; /* Set the pink shade background color */
+}
+
+.data-table button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: #d82e6d; /* Set the pink shade button color */
+  color: #fff;
+  cursor: pointer;
+}
+
+.data-table button:hover {
+  background-color: #c61c5c; /* Set the darker pink shade button color on hover */
+}
+
+body {
+  background-color: #ffe8f0; /* Set the pink shade background color */
+}
