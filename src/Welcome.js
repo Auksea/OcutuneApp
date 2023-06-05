@@ -4,6 +4,8 @@ import './Welcome.css'; // Import the Welcome.css file
 
 function Welcome() {
   const [data, setData] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -25,12 +27,21 @@ function Welcome() {
     } catch (error) {
       console.error(error);
     }
-  }  
+  }
+
+  function handleExclamationClick(item) {
+    setSelectedItem(item);
+    setIsModalOpen(true);
+  }
+
+  function closeModal() {
+    setIsModalOpen(false);
+  }
 
   return (
-    <div className="welcome-container"> {/* Use the "welcome-container" class */}
+    <div className="welcome-container">
       <h1>Welcome</h1>
-      <table className="data-table"> {/* Use the "data-table" class */}
+      <table className="data-table">
         <thead>
           <tr>
             <th>Serial No</th>
@@ -46,7 +57,15 @@ function Welcome() {
           {data.map(item => (
             <tr key={item.SerialNo}>
               <td>{item.SerialNo}</td>
-              <td>{item.LUX}</td>
+              <td>
+                {item.LUX > 300 ? (
+                  <button onClick={() => handleExclamationClick(item)}>
+                    {item.LUX}!
+                  </button>
+                ) : (
+                  item.LUX
+                )}
+              </td>
               <td>{item.CCT}</td>
               <td>{item.mEDI}</td>
               <td>{item.GIndex_LightPollution}</td>
@@ -58,12 +77,23 @@ function Welcome() {
           ))}
         </tbody>
       </table>
+
+      {isModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Attention</h2>
+            {selectedItem && (
+              <p>
+                You need to go outside because of the LUX higher than 100
+              </p>
+            )}
+            <button onClick={closeModal}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
+
 export default Welcome;
-
-
-
-  

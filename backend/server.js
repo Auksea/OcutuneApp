@@ -168,6 +168,7 @@ async function performETL() {
   }
 }
 
+
 app.get('/measurements', async (req, res) => {
   try {
     // Only perform ETL process if there is a new CSV file uploaded
@@ -190,9 +191,6 @@ app.delete('/measurements/:serialNo', async (req, res) => {
     // Delete the row with the specified SerialNo
     await executeQuery('DELETE FROM measurements WHERE SerialNo = ?', [serialNo]);
 
-    // Delete the dataset associated with the SerialNo (assuming there is a corresponding file in the Azure Blob Storage)
-    // Write the code to delete the dataset from Azure Blob Storage here
-
     // Return a success message or any other desired response
     res.json({ message: 'Record and dataset deleted successfully' });
   } catch (error) {
@@ -204,4 +202,3 @@ app.delete('/measurements/:serialNo', async (req, res) => {
 app.listen(3000, () => {
   console.log('Server running on port 3000');
 });
-
