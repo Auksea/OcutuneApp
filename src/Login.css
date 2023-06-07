@@ -1,31 +1,52 @@
+body {
+  font-family:  Times, sans-serif; /* Replace with your desired font family */
+}
 .login-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #f5f5f5ee; /* Set the overall background color */
+  background-color: #fff;
+  background-image: url("C:\Users\Aukse\Desktop\Projects\OcutuneApp\src\assets\premium_photo-1681487942927-e1a2786e6036.avif"); /* Replace with the path to your image */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right center;
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #ffe8f0; /* Set the form background color to a pink shade */
-  padding: 20px;
+  background-color: #3890d8;
+  padding: 30px;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   width: 300px;
+  margin-right: 70%;
 }
 
+
 .login-heading {
-  font-size: 24px;
-  color: #333333; /* Set the text color */
+  font-size: 30px;
+  color: #fff;
   margin-bottom: 20px;
+  text-align: center;
+}
+
+.page-heading {
+  font-size: 30px;
+  color: #fff;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .login-form label {
   font-size: 16px;
-  color: #333333; /* Set the text color */
+  color: #fff;
   margin-bottom: 10px;
 }
 
@@ -35,30 +56,31 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
+  width: 100%;
+  box-sizing: border-box; /* Added */
 }
 
 .login-button {
   margin-top: 20px;
-  padding: 10px 20px;
-  border: none;
+  padding: 10px;
+  border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
   color: #fff;
-  background-color: #d82e6d; /* Set the pink shade color */
+  background-color: #4e6295;
   cursor: pointer;
+  width: 100%;
 }
 
 .login-button:hover {
-  background-color: #c61c5c; /* Set the darker pink shade color on hover */
+  background-color: #c61c5c;
 }
 
 .login-error {
   font-size: 18px;
-  color: #333333; /* Set the text color */
+  color: #333333;
   margin-top: 10px;
+  text-align: center;
 }
-
-
-
 
 
