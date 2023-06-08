@@ -21,8 +21,6 @@ const connection = mysql.createPool({
 // enable CORS for all origins
 app.use(cors());
 
-console.log("Connection to MySQL is successful");
-
 // Create a connection string to connect to your Azure Blob Storage
 const connectionString ="DefaultEndpointsProtocol=https;AccountName=csvfromocutune;AccountKey=M5zsYcaXDYmpo8xF+QxiSOlkBM6p7os4t7i/b89tOZEEowNbBTH41LSdWYohzCYjue6FIjRQ01WZ+AStM+2y0Q==;EndpointSuffix=core.windows.net";
 
@@ -196,10 +194,27 @@ async function performETL() {
   }
 }
 
+async function deleteOldDatasets() {
+  const twentyFourHoursAgo = new Date();
+  twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 24);
+
+  try {
+    const query = "DELETE FROM measurements WHERE date < ?";
+    const result = await executeQuery(query, [twentyFourHoursAgo]);
+
+    console.log("Deleted old datasets:", result.affectedRows);
+  } catch (error) {
+    console.error("Error deleting old datasets:", error);
+  }
+}
+
 app.get("/measurements", async (req, res) => {
   try {
     // Only perform ETL process if there is a new CSV file uploaded
     await performETL();
+
+     // Delete datasets older than 24 hours
+     await deleteOldDatasets();
 
     connection.query("SELECT * FROM ocutunedb.measurements", (err, results) => {
       if (err) throw err;

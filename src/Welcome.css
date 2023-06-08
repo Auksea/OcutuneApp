@@ -34,37 +34,37 @@
   margin-top: -100px; /* Add this line to vertically center the heading */
 }
 
-.table-container {
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
 .data-table {
+  position: relative;
+  z-index: -1;
+  background-color: rgba(56, 144, 216, 0.8);
+  backdrop-filter: sepia(60%);
   width: 100%;
   border-collapse: collapse;
+  font-size: 18px;
 }
 
 .data-table th,
 .data-table td {
   text-align: center;
-  padding: 8px;
+  padding: 12px; /* Increase the padding for more spacing */
 }
 
 .data-table th {
   font-weight: bold;
 }
 
-.data-table tr:nth-child(even) {
-  background-color: #ffe8f0; /* Set the pink shade background color */
+.table-container {
+  width: 90%; /* Adjust the width as needed */
+  margin: 0 auto; /* Center the table horizontally */
 }
+
 
 .data-table button {
   padding: 5px 10px;
   border: none;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 18px;
   background-color: #d82e6d; /* Set the pink shade button color */
   color: #fff;
   cursor: pointer;
