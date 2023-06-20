@@ -1,6 +1,7 @@
 body {
-  font-family:  Times, sans-serif; /* Replace with your desired font family */
+  font-family: Times, sans-serif;
 }
+
 .login-container {
   position: absolute;
   top: 0;
@@ -8,7 +9,7 @@ body {
   right: 0;
   bottom: 0;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   background-color: #fff;
   background-image: url("C:\Users\Aukse\Desktop\Projects\OcutuneApp\src\assets\premium_photo-1681487942927-e1a2786e6036.avif"); /* Replace with the path to your image */
@@ -25,10 +26,10 @@ body {
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  width: 300px;
-  margin-right: 70%;
+  max-width: 280px;
+  width: 70%;
+  margin-left: 5%; 
 }
-
 
 .login-heading {
   font-size: 30px;
@@ -57,7 +58,7 @@ body {
   border-radius: 5px;
   font-size: 16px;
   width: 100%;
-  box-sizing: border-box; /* Added */
+  box-sizing: border-box;
 }
 
 .login-button {
@@ -83,4 +84,12 @@ body {
   text-align: center;
 }
 
+@media (max-width: 1600px) {
+  .login-container {
+    position: absolute;
+  }
 
+  .login-form {
+    margin-left: 1%; 
+  }
+}

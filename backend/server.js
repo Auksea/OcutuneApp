@@ -194,7 +194,7 @@ async function performETL() {
   }
 }
 
-async function deleteOldDatasets() {
+/*async function deleteOldDatasets() {
   const twentyFourHoursAgo = new Date();
   twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 24);
 
@@ -206,7 +206,7 @@ async function deleteOldDatasets() {
   } catch (error) {
     console.error("Error deleting old datasets:", error);
   }
-}
+}*/
 
 app.get("/measurements", async (req, res) => {
   try {
@@ -214,7 +214,7 @@ app.get("/measurements", async (req, res) => {
     await performETL();
 
      // Delete datasets older than 24 hours
-     await deleteOldDatasets();
+     //await deleteOldDatasets();
 
     connection.query("SELECT * FROM ocutunedb.measurements", (err, results) => {
       if (err) throw err;

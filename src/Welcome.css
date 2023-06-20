@@ -15,6 +15,15 @@
   align-items: center;
 }
 
+.welcome-heading {
+  font-size: 30px;
+  color: #ffffff;
+  margin-bottom: 40px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
 .welcome-overlay {
   position: absolute;
   top: 0;
@@ -23,20 +32,10 @@
   height: 100%;
   background-color: rgba(56, 144, 216, 0.8);
   backdrop-filter: sepia(60%);
-  z-index: -1;
-}
-
-.welcome-heading {
-  font-size: 30px;
-  color: #fff;
-  margin-bottom: 40px;
-  text-align: center;
-  margin-top: -100px; /* Add this line to vertically center the heading */
 }
 
 .data-table {
   position: relative;
-  z-index: -1;
   background-color: rgba(56, 144, 216, 0.8);
   backdrop-filter: sepia(60%);
   width: 100%;
@@ -47,7 +46,7 @@
 .data-table th,
 .data-table td {
   text-align: center;
-  padding: 12px; /* Increase the padding for more spacing */
+  padding: 12px;
 }
 
 .data-table th {
@@ -55,8 +54,8 @@
 }
 
 .table-container {
-  width: 90%; /* Adjust the width as needed */
-  margin: 0 auto; /* Center the table horizontally */
+  width: 90%;
+  margin: 0 auto;
 }
 
 
@@ -65,7 +64,7 @@
   border: none;
   border-radius: 5px;
   font-size: 18px;
-  background-color: #d82e6d; /* Set the pink shade button color */
+  background-color: #d82e6d;
   color: #fff;
   cursor: pointer;
 }
@@ -85,7 +84,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 10px; /* Added border-radius */
+  border-radius: 10px;
 }
 
 .modal-content {
